@@ -1,12 +1,22 @@
 <template>
   <div class="film m-3 text-center">
-      <p v-if="titoloFilm()"><span class="fw-bold">Titolo originale:</span> {{ item.original_title }}</p>
-      <template v-else>
+        <p v-if="titoloFilm()"><span class="fw-bold">Titolo originale:</span> {{ item.original_title }}</p>
+        <template v-else>
             <p><span class="fw-bold">Titolo:</span> {{ item.title }}</p>
             <p><span class="fw-bold">Titolo originale:</span> {{ item.original_title }}</p>
-      </template>
-      <p>{{ item.original_language }}</p>
-      <p>{{ item.vote_average }}</p>
+        </template>
+    
+        <!-- if else inline per vedere le bandiere solo sulla lingua italiana e inglese -->
+        <div v-if="this.item.original_language == 'en'">
+            <img :src="inglese" :alt="item.original_language">
+        </div>
+        <div v-else-if="this.item.original_language == 'it'">
+            <img :src="italiano" :alt="item.original_language">
+        </div>
+        <div v-else-if="this.item.original_language !== 'it' && this.item.original_language !== 'en'">
+            <p>{{ item.original_language }}</p>
+        </div>
+        <p>{{ item.vote_average }}</p>
   </div>
 </template>
 
@@ -15,7 +25,10 @@ export default {
     name:'Card',
     data(){
         return{
-            unicoNome: "",
+            unicoNome: false,
+            inglese: require("../assets/en.png"),
+            italiano: require("../assets/it.png")
+
         }
     },
     props: {
@@ -25,9 +38,9 @@ export default {
         titoloFilm:function(){
             if(this.item.original_title == this.item.title){
                 this.unicoNome = true;
-            }else {
-                this.unicoNome = false;
             }
+
+            return this.unicoNome;
         }
     }
 }
@@ -39,6 +52,11 @@ export default {
     width: calc(100% / 5 - 10px);
     min-height: 100px;
     background-color: blanchedalmond;
+
+    img {
+        width: 12%;
+        height: 10%;
+    }
 }
 
 </style>
