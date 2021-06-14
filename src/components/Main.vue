@@ -4,7 +4,7 @@
             <h1>Nessuna ricerca corrispondente!</h1>
         </div>
         <div v-else class="d-flex flex-wrap">
-            <Card v-for="el in arrayRicerca" :key="el.id" :item="el"/>
+            <Card v-for="el in arrayFilm" :key="el.id" :item="el"/>
         </div>
     </main>
 </template>
@@ -15,7 +15,7 @@ import Card from './Card.vue';
 export default {
     name: 'Main',
     props:{
-        arrayRicerca: Array,
+        arrayFilm: Array,
         esito: Boolean
     },
     components: {

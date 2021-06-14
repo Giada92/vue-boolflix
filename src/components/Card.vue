@@ -1,5 +1,5 @@
 <template>
-  <div class="film m-3 text-center">
+  <div class="film text-center">
         <p v-if="titoloFilm()"><span class="fw-bold">Titolo originale:</span> {{ item.original_title }}</p>
         <template v-else>
             <p><span class="fw-bold">Titolo:</span> {{ item.title }}</p>
@@ -49,7 +49,8 @@ export default {
 <style lang="scss" scoped>
 
 .film {
-    width: calc(100% / 5 - 10px);
+    width: calc(100% / 4 - 10px);
+    margin: 10px 5px; 
     min-height: 100px;
     background-color: blanchedalmond;
 
