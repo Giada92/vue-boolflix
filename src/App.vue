@@ -1,28 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- Intestazione della pagina -->
+    <Header @sceltaFilm="filmScelto"/>
+    <!-- /Intestazione della pagina -->
+
+    <!-- Corpo della pagina - lista film -->
+    <Main />
+    <!-- Corpo della pagina - lista film -->
+
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header.vue';
+import Main from './components/Main.vue'
+
 
 export default {
   name: 'App',
+  data(){
+    return{
+      nomeFilm:""
+    }
+  },
   components: {
-    HelloWorld
+    Header,
+    Main
+  },
+  methods:{
+    filmScelto:function(newString){
+      console.log(newString);
+        this.nomeFilm = newString;
+    }
   }
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import './assets/style/general.scss';
 </style>
