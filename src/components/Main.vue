@@ -1,12 +1,10 @@
 <template>
     <main class="container">
-        <h1>Titolo provvisorio</h1>
-        <div class="d-flex justify-content-around">
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+        <div v-if="esito">
+            <h1>Nessuna ricerca corrispondente!</h1>
+        </div>
+        <div v-else class="d-flex flex-wrap">
+            <Card v-for="el in arrayRicerca" :key="el.id" :item="el"/>
         </div>
     </main>
 </template>
@@ -16,9 +14,13 @@ import Card from './Card.vue';
 
 export default {
     name: 'Main',
+    props:{
+        arrayRicerca: Array,
+        esito: Boolean
+    },
     components: {
         Card
-    },
+    }
 }
 </script>
 
