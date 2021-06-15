@@ -2,17 +2,17 @@
     <main>
         <div v-if="arrayFilm.length == 0" class="bg">
             <img src="../assets/sfondo.jpg" alt="">
-            <div class=" d-flex justify-content-center align-items-center">
-                <h1>Film, serie Tv e tanto altro.</h1>
+            <div class="d-flex justify-content-center">
+                <h1>Nessun risultato della ricerca corrente</h1>
             </div>
         </div>
         <!-- In un secondo momento gestire se non ci sono risultati -->
         <div v-else class="container-fluid bg_color">
-            <h2>Lista Film</h2>
+            <h2>Film Trovati: {{ arrayFilm.length}}</h2>
             <div class="d-flex flex-wrap">
                 <Card v-for="el in arrayFilm" :key="el.id" :item="el"/>
             </div>
-            <h2>Lista Serie Tv</h2>
+            <h2>Serie Tv Trovate: {{ arraySerie.length}}</h2>
             <div class="d-flex flex-wrap">
                 <CardSerie v-for="element in arraySerie" :key="element.id" :items="element"/>
             </div>
@@ -53,9 +53,9 @@ export default {
 
 
     h1 {
-        z-index: 2;
         position: absolute;
-        top:0;
+        top:80px;
+        font-size: 50px;
         color: white;
     }
 }

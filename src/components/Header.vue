@@ -1,7 +1,9 @@
 <template>
     <header class="d-flex justify-content-between align-items-center px-3">
         <div>
-            <img src="../assets/my_logo.png" alt="Logo Personalizzato">
+            <a href="#">
+                <img src="../assets/my_logo.png" alt="Logo Personalizzato">
+            </a>
         </div>
         <div>
             <form>

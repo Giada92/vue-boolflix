@@ -53,7 +53,7 @@ export default {
               .then((response) => {
                     this.risultatiFilm = response.data.results;
                     //console.log("film", this.risultatiFilm);
-              });
+                });
         
         //chiamata serieTv
         axios.
@@ -69,8 +69,7 @@ export default {
 
                     this.risultatiSerieTv = response.data.results;
                     //console.log("serie tv", this.risultatiSerieTv);
-              });
-        
+              });        
     }
   }
 }
