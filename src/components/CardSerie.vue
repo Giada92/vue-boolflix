@@ -1,24 +1,24 @@
 <template>
-  <div class="film text-center">
-        <p v-if="titoloFilm()"><span class="fw-bold">Titolo originale:</span> {{ item.original_title }}</p>
+    <div class="film text-center">
+        <p v-if="titoloSerie()"><span class="fw-bold">Titolo originale:</span> {{ items.original_name }}</p>
         <template v-else>
-            <p><span class="fw-bold">Titolo:</span> {{ item.title }}</p>
-            <p><span class="fw-bold">Titolo originale:</span> {{ item.original_title }}</p>
+            <p><span class="fw-bold">Titolo:</span> {{ items.name }}</p>
+            <p><span class="fw-bold">Titolo:</span> {{ items.original_name }}</p>
         </template>
-    
         <div v-if="bandiera">
-            <img :src="imgBandiera" :alt="item.original_language">
+            <img :src="imgBandiera" :alt="items.original_language">
         </div>
         <div v-else>
-            <p>{{ item.original_language }}</p>
+            <p>{{ items.original_language }}</p>
         </div>
-        <p>{{ item.vote_average }}</p>
-  </div>
+        <p><span class="fw-bold">Voto:</span> {{ items.vote_average }}</p>
+    </div>
+  
 </template>
 
 <script>
 export default {
-    name:'Card',
+    name:"CardSerie",
     data(){
         return{
             unicoNome: false,
@@ -27,11 +27,11 @@ export default {
         }
     },
     props: {
-        item: Object
+        items: Object
     },
     methods:{
-        titoloFilm:function(){
-            if(this.item.original_title == this.item.title){
+        titoloSerie:function(){
+            if(this.items.original_name == this.items.name){
                 this.unicoNome = true;
             }
 
@@ -39,7 +39,7 @@ export default {
         }
     },
     created(){
-        var linguaOriginale = this.item.original_language;
+        var linguaOriginale = this.items.original_language;
         if(linguaOriginale == 'en' || linguaOriginale == 'it') {
             if(linguaOriginale == 'en') {
                 this.imgBandiera = require("../assets/en.png");
@@ -49,8 +49,7 @@ export default {
 
             this.bandiera = true;
         }
-    }      
-    
+    }   
 }
 </script>
 
@@ -63,7 +62,7 @@ export default {
     background-color: blanchedalmond;
 
     img {
-        width: 10%;
+        width: 12%;
         height: 10%;
     }
 }

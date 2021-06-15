@@ -5,9 +5,10 @@
         </div>
         <div>
             <form>
-                <input class="mx-3" type="text" v-model.trim="ricercaUtente">
+                <input class="mx-3" type="text" v-model.trim="ricercaUtente" placeholder="Search...">
                 <button @click.prevent="$emit('sceltaUtente', ricercaUtente)"
-                    class="btn btn-light" type="submit">Cerca</button>
+                    class="btn btn-light" type="submit">Cerca
+                </button>
             </form>
         </div>
     </header>
