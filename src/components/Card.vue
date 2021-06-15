@@ -1,6 +1,6 @@
 <template>
   <div class="film">
-      <img class="poster" :src="imgLocandina()" alt="">
+      <img class="poster" :src="imgLocandina" alt="">
       <div class="contenitore_text text-center">
             <p v-if="titoloFilm()"><span class="fw-bold">Titolo originale:</span> {{ item.original_title }}</p>
             <template v-else>
@@ -14,7 +14,8 @@
             <div v-else>
                 <p>{{ item.original_language }}</p>
             </div>
-            <p>{{ item.vote_average }}</p>
+            <p class="voto">Voto: 
+                <i v-for="i in 5" :key="i" :class="i <= voto ? 'fas fa-star':'far fa-star'"></i></p>
       </div>
   </div>
 </template>
@@ -26,7 +27,8 @@ export default {
         return{
             unicoNome: false,
             bandiera: false,
-            imgBandiera:""
+            imgBandiera:"",
+            urlLocandina: "https://image.tmdb.org/t/p/w342"
         }
     },
     props: {
@@ -39,9 +41,21 @@ export default {
             }
 
             return this.unicoNome;
-        },
+        }
+    },
+    computed: {
         imgLocandina: function(){
-            return "https://image.tmdb.org/t/p/w342" +  this.item.poster_path;
+            //console.log(this.item.poster_path);
+            if(this.item.poster_path !== "null"){
+                return this.urlLocandina +  this.item.poster_path;
+            }
+            return require("../assets/no_foto.png"); 
+        },
+        voto: function(){
+            //console.log(this.item.vote_average);
+            var formula = Math.round(Math.round(this.item.vote_average)/2);
+            //console.log(formula);
+            return formula;
         }
     },
     created(){
@@ -104,6 +118,10 @@ span {
 p {
     color: white;
     font-size: 20px;
+}
+
+.voto {
+    margin-top: 10px;
 }
 
 </style>
