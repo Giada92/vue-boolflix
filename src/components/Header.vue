@@ -5,9 +5,9 @@
         </div>
         <div>
             <form>
-                <input class="mx-3" type="text" v-model.trim="ricercaUtente" placeholder="Search...">
+                <input class="mx-3 py-0" type="text" v-model.trim="ricercaUtente" placeholder="Search...">
                 <button @click.prevent="$emit('sceltaUtente', ricercaUtente)"
-                    class="btn btn-light" type="submit">Cerca
+                    class="btn btn-dark py-1" type="submit">Cerca
                 </button>
             </form>
         </div>

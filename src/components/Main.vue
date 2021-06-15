@@ -12,7 +12,7 @@
             <div class="d-flex flex-wrap">
                 <Card v-for="el in arrayFilm" :key="el.id" :item="el"/>
             </div>
-            <h2>Serie Tv</h2>
+            <h2>Lista Serie Tv</h2>
             <div class="d-flex flex-wrap">
                 <CardSerie v-for="element in arraySerie" :key="element.id" :items="element"/>
             </div>
@@ -63,6 +63,12 @@ export default {
 .bg_color {
     min-height: calc(100vh - 80px);
     background-color: black;
+}
+
+h2 {
+    text-align: center;
+    font-size: 50px;
+    padding-top: 15px;
 }
 
 </style>
