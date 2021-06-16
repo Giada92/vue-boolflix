@@ -32,10 +32,15 @@
             <p v-if="item.overview.length > 0" class="trama"><span class="fw-bold">Trama:</span> {{ item.overview }} </p>
             <!-- /Trama -->
 
-            <!-- Elenco del Cast -->
-            <span v-if="nomiAttori.length > 0" class="fw-normal">CAST: </span>
-            <span class="trama" v-for="nomi, index in nomiAttori" :key="index">{{ nomi }}, </span>
-            <!-- /Elenco del Cast -->
+            <!-- Elenco del Cast dei film -->
+            <span v-if="nomiAttoriFilm.length > 0" class="fw-normal">CAST: </span>
+            <span class="trama" v-for="nomi, index in nomiAttoriFilm" :key="index">{{ nomi }}, </span><br>
+            <!-- /Elenco del Cast dei film -->
+
+            <!-- Elenco Genre del film -->
+            <span v-if="stampaGenere.length > 0" class="fw-normal">Genere: </span>
+            <span class="trama" v-for="genere, index in stampaGenere" :key="index">{{ genere }}, </span>
+            <!-- /Elenco Genre del film -->
       </div>
   </div>
 </template>
@@ -53,8 +58,12 @@ export default {
             urlLocandina: "https://image.tmdb.org/t/p/w342",
             apiKey: "2303a90cfe7bed86062b475952078cbf",
             idFilm: [],
-            ricercaAttori:[],
-            nomiAttori:[]
+            idSerie: [],
+            ricercaAttoriFilm:[],
+            ricercaAttoriSerie:[],
+            nomiAttoriFilm:[],
+            genereFilm:[],
+            stampaGenere:[]
         }
     },
     props: {
@@ -105,22 +114,40 @@ export default {
             }
 
             this.bandiera = true;
+
         }
     },
     mounted(){
-            this.idFilm = this.item.id;
-            
-            //chiamta per recuperare gli attori
-            axios.
-            get("https://api.themoviedb.org/3/movie/" + this.idFilm +"/credits?api_key=2303a90cfe7bed86062b475952078cbf&language=en-US")
-              .then((res) => {
-                    this.ricercaAttori = res.data.cast;
+        
+        if(this.item.original_title){
+            this.idFilm.push(this.item.id);
+        }else {
+            this.idSerie.push(this.item.id);
+        }
+        
+        //chiamta per recuperare gli attori dei film
+        axios.
+        get("https://api.themoviedb.org/3/movie/" + this.idFilm +"/credits?api_key=2303a90cfe7bed86062b475952078cbf&language=en-US")
+            .then((res) => {
 
-                    for(var i=0; i<5; i++){
-                        console.log( this.ricercaAttori[i].name);
-                        this.nomiAttori.push(this.ricercaAttori[i].name);
-                    }
-                });
+                this.ricercaAttoriFilm = res.data.cast;
+
+                for(var i=0; i<5; i++){
+                    //console.log( this.ricercaAttori[i].name);
+                    this.nomiAttoriFilm.push(this.ricercaAttoriFilm[i].name);
+                }
+            });
+
+        //chiamata per recuperare i generi del film
+        axios.
+        get("https://api.themoviedb.org/3/movie/" + this.idFilm +"?api_key=2303a90cfe7bed86062b475952078cbf&language=en-US")
+            .then((res) => {
+                this.ricercaAttoriFilm = res.data.genres;
+
+                for(var i=0; i<this.ricercaAttoriFilm.length; i++){
+                    this.stampaGenere.push(this.ricercaAttoriFilm[i].name);
+                }
+            });
     }     
     
 }
@@ -132,7 +159,6 @@ export default {
     width: calc(100% / 5 - 10px);
     margin: 10px 5px;
     min-height: 80%;
-    //background-color: blanchedalmond;
     position: relative;
 
     .poster {
@@ -151,7 +177,6 @@ export default {
     bottom: 0;
     padding: 10px;
     background-image: linear-gradient(to bottom, rgba(#0000, 0.6), rgba(#0000, 2));
-    //background-color: rgba(#474646, 0.6);
 }
 
 .info {

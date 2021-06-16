@@ -49,21 +49,21 @@ export default {
           })
           .then((response) => {
                 this.risultatiFilm = response.data.results;
-            });
+      });
         
-        //chiamata serieTv
-        axios.
-            get(this.apiUrlTv, {
-                params: {
-                  api_key: this.apiKey,
-                  query: newString,
-                  language: "it-IT"
-                }
-              })
-              .then((response) => {
-                    this.risultatiSerieTv = response.data.results;
-                   
-              });        
+    //chiamata serieTv
+    axios.
+        get(this.apiUrlTv, {
+            params: {
+              api_key: this.apiKey,
+              query: newString,
+              language: "it-IT"
+            }
+          })
+          .then((response) => {
+                this.risultatiSerieTv = response.data.results;
+                
+      });        
     }
   }
 }

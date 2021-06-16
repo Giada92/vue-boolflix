@@ -11,7 +11,7 @@
             <!-- Card del Film -->
             <h2>Film Trovati: {{ arrayFilm.length}}</h2>
             <div class="d-flex flex-wrap">
-                <Card v-for="el in arrayFilm" :key="el.id" :item="el"/>
+                <Card v-for="el in arrayFilm" :key="el.id" :item="el" />
             </div>
             <!-- /Card del Film -->
 
