@@ -9,7 +9,7 @@
             <form>
                 <input class="mx-3 py-0" type="text" v-model.trim="ricercaUtente" placeholder="Search...">
                 <button @click.prevent="$emit('sceltaUtente', ricercaUtente)"
-                    class="btn btn-dark py-1" type="submit">Cerca
+                    class="btn btn-dark py-1" type="submit"><i class="fas fa-search"></i>
                 </button>
             </form>
         </div>

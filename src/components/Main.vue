@@ -8,21 +8,25 @@
         </div>
         <!-- In un secondo momento gestire se non ci sono risultati -->
         <div v-else class="container-fluid bg_color">
+            <!-- Card del Film -->
             <h2>Film Trovati: {{ arrayFilm.length}}</h2>
             <div class="d-flex flex-wrap">
                 <Card v-for="el in arrayFilm" :key="el.id" :item="el"/>
             </div>
+            <!-- /Card del Film -->
+
+            <!-- Card delle serie TV -->
             <h2>Serie Tv Trovate: {{ arraySerie.length}}</h2>
             <div class="d-flex flex-wrap">
-                <CardSerie v-for="element in arraySerie" :key="element.id" :items="element"/>
+                <Card v-for="el in arraySerie" :key="el.id" :item="el"/>
             </div>
+            <!-- /Card delle serie TV -->
         </div>
     </main>
 </template>
 
 <script>
 import Card from './Card.vue';
-import CardSerie from './CardSerie.vue';
 
 
 export default {
@@ -32,8 +36,7 @@ export default {
         arraySerie: Array
     },
     components: {
-        Card,
-        CardSerie
+        Card
     }
 }
 </script>
@@ -47,10 +50,7 @@ export default {
     img {
         width: 100%;
         object-fit: contain;
-        //object-position: 0px 20px;
-
     }
-
 
     h1 {
         position: absolute;

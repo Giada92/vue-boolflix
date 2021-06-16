@@ -1,26 +1,41 @@
 <template>
   <div class="film">
+      <!-- Recupero la locandina dei film/serie -->
       <img class="poster" :src="imgLocandina()" :alt="item.original_title">
+
       <div class="info text-center">
-            <p v-if="titoloFilm()"><span class="fw-bold">Titolo originale:</span> {{ item.original_title }}</p>
+            <!-- Stampo  i titoli -->
+            <p v-if="nomeUnico()"><span class="fw-bold">Titolo originale:</span> {{ ricercaTitoloOriginale() }}</p>
             <template v-else>
-                <p><span class="fw-bold">Titolo:</span> {{ item.title }}</p>
-                <p><span class="fw-bold">Titolo originale:</span> {{ item.original_title }}</p>
+                <p><span class="fw-bold">Titolo:</span> {{ ricercaTitolo() }}</p>
+                <p><span class="fw-bold">Titolo originale:</span> {{ ricercaTitoloOriginale() }}</p>
                 <p>{{ item.id }}</p>
             </template>
-        
+            <!-- /Stampo  i titoli -->
+
+            <!-- Assegno le bandiere in base alla lingua -->
             <div v-if="bandiera">
                 <span>Lingua: </span><img :src="imgBandiera" :alt="item.original_language">
             </div>
             <div v-else>
                 <p>{{ item.original_language }}</p>
             </div>
+            <!-- /Assegno le bandiere in base alla lingua -->
+
+            <!-- Assegno le stielle per il voto -->
             <p class="voto">Voto: 
                 <i v-for="i in 5" :key="i" :class="i <= voto ? 'fas fa-star':'far fa-star'"></i>
             </p>
+            <!-- /Assegno le stielle per il voto -->
+
+            <!-- Trama -->
             <p v-if="item.overview.length > 0" class="trama"><span class="fw-bold">Trama:</span> {{ item.overview }} </p>
-            <span class="fw-normal">CAST:</span>
+            <!-- /Trama -->
+
+            <!-- Elenco del Cast -->
+            <span v-if="nomiAttori.length > 0" class="fw-normal">CAST: </span>
             <span class="trama" v-for="nomi, index in nomiAttori" :key="index">{{ nomi }}, </span>
+            <!-- /Elenco del Cast -->
       </div>
   </div>
 </template>
@@ -38,7 +53,7 @@ export default {
             urlLocandina: "https://image.tmdb.org/t/p/w342",
             apiKey: "2303a90cfe7bed86062b475952078cbf",
             idFilm: [],
-            chiamtaAxios:[],
+            ricercaAttori:[],
             nomiAttori:[]
         }
     },
@@ -46,11 +61,24 @@ export default {
         item: Object
     },
     methods:{
-        titoloFilm:function(){
+        ricercaTitoloOriginale: function(){
+            if(this.item.original_title){
+                return this.item.original_title;
+            }else {
+                return this.item.original_name;
+            }
+        },
+        ricercaTitolo: function(){
+            if(this.item.title){
+                return this.item.title;
+            }else {
+                return this.item.name;
+            }
+        },
+        nomeUnico:function(){
             if(this.item.original_title == this.item.title){
                 this.unicoNome = true;
             }
-
             return this.unicoNome;
         },
         imgLocandina: function(){
@@ -63,9 +91,7 @@ export default {
     },
     computed: {
         voto: function(){
-            //console.log(this.item.vote_average);
             var formula = Math.round(Math.round(this.item.vote_average)/2);
-            //console.log(formula);
             return formula;
         }
     },
@@ -83,16 +109,16 @@ export default {
     },
     mounted(){
             this.idFilm = this.item.id;
-            //console.log(this.idFilm);
-
+            
+            //chiamta per recuperare gli attori
             axios.
             get("https://api.themoviedb.org/3/movie/" + this.idFilm +"/credits?api_key=2303a90cfe7bed86062b475952078cbf&language=en-US")
               .then((res) => {
-                    this.chiamtaAxios = res.data.cast;
+                    this.ricercaAttori = res.data.cast;
 
                     for(var i=0; i<5; i++){
-                        console.log( this.chiamtaAxios[i].name);
-                        this.nomiAttori.push(this.chiamtaAxios[i].name);
+                        console.log( this.ricercaAttori[i].name);
+                        this.nomiAttori.push(this.ricercaAttori[i].name);
                     }
                 });
     }     

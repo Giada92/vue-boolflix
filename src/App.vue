@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- Intestazione della pagina -->
-    <Header @sceltaUtente="selezionato"/>
+    <Header @sceltaUtente="ricerca"/>
     <!-- /Intestazione della pagina -->
 
     <!-- Corpo della pagina - lista film -->
@@ -24,7 +24,6 @@ export default {
   name: 'App',
   data(){
     return{
-      nome:"",
       apiUrl: "https://api.themoviedb.org/3/search/movie",
       apiUrlTv: "https://api.themoviedb.org/3/search/tv",
       apiKey: "2303a90cfe7bed86062b475952078cbf",
@@ -37,38 +36,33 @@ export default {
     Main
   },
   methods:{
-    selezionato:function(newString){
-      //console.log(newString);
-        this.nome = newString;
-
-        //chiamata film
-        axios.
-            get(this.apiUrl, {
-                params: {
-                  api_key: this.apiKey,
-                  query: this.nome,
-                  language: "it-IT"
-                }
-              })
-              .then((response) => {
-                    this.risultatiFilm = response.data.results;
-                    //console.log("film", this.risultatiFilm);
-                });
+    ricerca:function(newString){
+    
+    //chiamata film
+    axios.
+        get(this.apiUrl, {
+              params: {
+              api_key: this.apiKey,
+              query: newString,
+              language: "it-IT"
+            }
+          })
+          .then((response) => {
+                this.risultatiFilm = response.data.results;
+            });
         
         //chiamata serieTv
         axios.
             get(this.apiUrlTv, {
                 params: {
                   api_key: this.apiKey,
-                  query: this.nome,
+                  query: newString,
                   language: "it-IT"
                 }
               })
               .then((response) => {
-                    //console.log(response);
-
                     this.risultatiSerieTv = response.data.results;
-                    //console.log("serie tv", this.risultatiSerieTv);
+                   
               });        
     }
   }
