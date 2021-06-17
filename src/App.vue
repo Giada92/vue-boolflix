@@ -1,12 +1,15 @@
 <template>
   <div id="app">
     <!-- Intestazione della pagina -->
-    <Header @sceltaUtente="ricerca"/>
+    <Header @sceltaUtente="ricerca"
+            @cambiatoGenere="genereFilm"/>
     <!-- /Intestazione della pagina -->
 
     <!-- Corpo della pagina - lista film -->
     <Main :arrayFilm="risultatiFilm"
-          :arraySerie="risultatiSerieTv" />
+          :arraySerie="risultatiSerieTv"
+          :genereScelto= "genereSelezionato"
+          :objectGenri="elencoGeneri" />
     <!-- Corpo della pagina - lista film -->
 
 
@@ -28,7 +31,9 @@ export default {
       apiUrlTv: "https://api.themoviedb.org/3/search/tv",
       apiKey: "2303a90cfe7bed86062b475952078cbf",
       risultatiFilm: [],
-      risultatiSerieTv: []
+      risultatiSerieTv: [],
+      genereSelezionato:"",
+      elencoGeneri: []
     }
   },
   components: {
@@ -49,6 +54,7 @@ export default {
           })
           .then((response) => {
                 this.risultatiFilm = response.data.results;
+                //console.log(this.risultatiFilm);
       });
         
     //chiamata serieTv
@@ -64,7 +70,11 @@ export default {
                 this.risultatiSerieTv = response.data.results;
                 
       });        
-    }
+    },
+  genereFilm: function(string, object){
+    this.genereSelezionato = string;
+    this.elencoGeneri = object;
+  }
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="film">
       <!-- Recupero la locandina dei film/serie -->
-      <img class="poster" :src="imgLocandina()" :alt="item.original_title">
+      <img class="poster" :src="imgLocandina()" :alt="ricercaTitoloOriginale()">
 
       <div class="info text-center">
             <!-- Stampo  i titoli -->
@@ -37,6 +37,11 @@
             <span class="trama" v-for="nomi, index in nomiAttoriFilm" :key="index">{{ nomi }}, </span><br>
             <!-- /Elenco del Cast dei film -->
 
+            <!-- Elenco del Cast delle serie tv -->
+            <span v-if="nomiAttoriSerie.length > 0" class="fw-normal">CAST: </span>
+            <span class="trama" v-for="nomi, index in nomiAttoriSerie" :key="index">{{ nomi }}, </span><br>
+            <!-- /Elenco del Cast delle serie tv -->
+
             <!-- Elenco Genre del film -->
             <span v-if="stampaGenere.length > 0" class="fw-normal">Genere: </span>
             <span class="trama" v-for="genere, index in stampaGenere" :key="index">{{ genere }}, </span>
@@ -62,6 +67,7 @@ export default {
             ricercaAttoriFilm:[],
             ricercaAttoriSerie:[],
             nomiAttoriFilm:[],
+            nomiAttoriSerie:[],
             genereFilm:[],
             stampaGenere:[]
         }
@@ -91,7 +97,7 @@ export default {
             return this.unicoNome;
         },
         imgLocandina: function(){
-            if(this.item.poster_path !== null){
+            if(this.item.poster_path != null){
                 return this.urlLocandina +  this.item.poster_path;
             } else {
                 return require("../assets/no_foto.png"); 
@@ -100,7 +106,7 @@ export default {
     },
     computed: {
         voto: function(){
-            var formula = Math.round(Math.round(this.item.vote_average)/2);
+            var formula = Math.ceil(this.item.vote_average / 2);
             return formula;
         }
     },
@@ -126,20 +132,38 @@ export default {
         }
         
         //chiamta per recuperare gli attori dei film
+        /* FUNZIONA IN PARTE */
         axios.
         get("https://api.themoviedb.org/3/movie/" + this.idFilm +"/credits?api_key=2303a90cfe7bed86062b475952078cbf&language=en-US")
             .then((res) => {
 
-                this.ricercaAttoriFilm = res.data.cast;
+                for(var i=0; i<5; i++){
+                    if(res.data.cast[i] != undefined){
+                        console.log(res.data.cast);
+                        this.ricercaAttoriFilm = res.data.cast;
+                        //console.log( this.ricercaAttori[i].name);
+                        this.nomiAttoriFilm.push(this.ricercaAttoriFilm[i].name);
+                    }
+                }
+            });
+
+        //chiamta per recuperare gli attori delle serie tv
+        /* FUNZIONA IN PARTE */
+        axios.
+        get("https://api.themoviedb.org/3/tv/" + this.idSerie +"/credits?api_key=2303a90cfe7bed86062b475952078cbf&language=en-US")
+            .then((res) => {
 
                 for(var i=0; i<5; i++){
-                    //console.log( this.ricercaAttori[i].name);
-                    this.nomiAttoriFilm.push(this.ricercaAttoriFilm[i].name);
+                    if(res.data.cast[i] != undefined){
+                        this.ricercaAttoriSerie = res.data.cast;
+                        //console.log( this.ricercaAttori[i].name);
+                        this.nomiAttoriSerie.push(this.ricercaAttoriSerie[i].name);
+                    }
                 }
             });
 
         //chiamata per recuperare i generi del film
-        axios.
+        /* axios.
         get("https://api.themoviedb.org/3/movie/" + this.idFilm +"?api_key=2303a90cfe7bed86062b475952078cbf&language=en-US")
             .then((res) => {
                 this.ricercaAttoriFilm = res.data.genres;
@@ -147,7 +171,7 @@ export default {
                 for(var i=0; i<this.ricercaAttoriFilm.length; i++){
                     this.stampaGenere.push(this.ricercaAttoriFilm[i].name);
                 }
-            });
+            }); */
     }     
     
 }

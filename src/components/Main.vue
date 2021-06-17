@@ -1,6 +1,6 @@
 <template>
     <main>
-        <div v-if="arrayFilm.length == 0" class="bg">
+        <div v-if="arrayFilm.length == 0 && arraySerie.length == 0" class="bg">
             <img src="../assets/sfondo.jpg" alt="">
             <div class="d-flex justify-content-center">
                 <h1>Nessun risultato della ricerca corrente</h1>
@@ -31,13 +31,26 @@ import Card from './Card.vue';
 
 export default {
     name: 'Main',
+    data(){
+        return{
+            arrayFilmFiltrato:[]
+        }
+    },
     props:{
         arrayFilm: Array,
-        arraySerie: Array
+        arraySerie: Array,
+        genereScelto: String,
+        objectGenri: Array
     },
     components: {
         Card
-    }
+    }/* ,
+    computed:{
+        filtraFilm: function(){
+            //console.log(this.arrayFilm);
+            
+        }
+    } */
 }
 </script>
 
